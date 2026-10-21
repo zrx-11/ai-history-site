@@ -1,0 +1,1788 @@
+
+:root{
+  --bg:#0a0e1c; --bg2:#0d1226; --panel:#121832; --panel2:#182040;
+  --line:#25305c; --text:#e8edf7; --muted:#93a0c4; --dim:#5f6b92;
+  --gold:#f5c842; --cyan:#4ecdc4; --violet:#a78bfa; --rose:#fb7185; --green:#4ade80;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+/* ===== 阅读进度条 ===== */
+#progressBar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--cyan));z-index:200;width:0;transition:width .1s;}
+/* ===== 目录导航 ===== */
+#tocToggle{position:fixed;top:14px;right:14px;z-index:150;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:rgba(13,18,38,.92);backdrop-filter:blur(8px);color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+#tocToggle:hover{border-color:var(--gold);color:var(--gold);}
+#tocPanel{position:fixed;top:0;right:0;height:100vh;width:300px;max-width:85vw;background:rgba(10,14,28,.97);backdrop-filter:blur(12px);border-left:1px solid var(--line);z-index:160;transform:translateX(100%);transition:transform .25s ease;overflow-y:auto;padding:60px 18px 30px;}
+#tocPanel.open{transform:translateX(0);}
+#tocPanel .toc-close{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--text);font-size:16px;cursor:pointer;line-height:1;}
+#tocPanel .toc-title{font-size:12px;letter-spacing:3px;color:var(--gold);margin-bottom:14px;font-weight:700;}
+#tocPanel .toc-item{display:block;padding:8px 10px;border-radius:8px;font-size:13px;color:var(--muted);text-decoration:none;margin-bottom:2px;transition:all .15s;border-left:2px solid transparent;}
+#tocPanel .toc-item:hover{background:rgba(245,200,66,.08);color:var(--text);}
+#tocPanel .toc-item.active{background:rgba(245,200,66,.12);color:var(--gold);border-left-color:var(--gold);font-weight:600;}
+#tocPanel .toc-item .toc-no{display:inline-block;width:22px;color:var(--dim);font-size:11px;}
+#tocMask{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:155;display:none;}
+#tocMask.show{display:block;}
+/* 桌面端：目录常驻左侧 */
+
+  #tocPanel .toc-close{display:none;}
+  #tocMask{display:none!important;}
+  
+}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;line-height:1.7;overflow-x:hidden;}
+/* 星空背景 */
+body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 80% -10%,#1b2a5e 0%,transparent 60%),radial-gradient(900px 500px at -10% 30%,#14204a 0%,transparent 55%),var(--bg);}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(1px 1px at 12% 22%,rgba(255,255,255,.5) 50%,transparent 51%),radial-gradient(1px 1px at 34% 68%,rgba(255,255,255,.4) 50%,transparent 51%),radial-gradient(1.4px 1.4px at 55% 12%,rgba(255,255,255,.45) 50%,transparent 51%),radial-gradient(1px 1px at 72% 42%,rgba(255,255,255,.5) 50%,transparent 51%),radial-gradient(1.2px 1.2px at 88% 78%,rgba(255,255,255,.4) 50%,transparent 51%),radial-gradient(1px 1px at 8% 82%,rgba(255,255,255,.35) 50%,transparent 51%),radial-gradient(1.2px 1.2px at 45% 92%,rgba(255,255,255,.4) 50%,transparent 51%),radial-gradient(1px 1px at 95% 20%,rgba(255,255,255,.35) 50%,transparent 51%);}
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px;}
+a{color:var(--cyan);text-decoration:none;}
+button,input{font-family:inherit;}
+h1,h2,h3{line-height:1.3;}
+
+/* ===== Hero ===== */
+.hero{padding:72px 0 40px;text-align:center;}
+.hero .eyebrow{display:inline-block;font-size:12px;letter-spacing:4px;color:var(--gold);border:1px solid rgba(245,200,66,.4);border-radius:999px;padding:5px 16px;margin-bottom:22px;}
+.hero h1{font-size:clamp(38px,8vw,72px);font-weight:800;letter-spacing:6px;background:linear-gradient(120deg,#fff 20%,#f5c842 55%,#4ecdc4 90%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.hero .en{font-size:clamp(13px,2.4vw,18px);letter-spacing:8px;color:var(--muted);margin-top:10px;text-transform:uppercase;}
+.hero .sub{margin-top:14px;font-size:clamp(13px,2.6vw,16px);color:var(--muted);}
+.hero .desc{max-width:640px;margin:16px auto 0;font-size:14px;color:var(--dim);}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:34px;}
+@media(min-width:720px){.stats{grid-template-columns:repeat(4,1fr);}}
+.stat{background:rgba(24,32,64,.65);border:1px solid var(--line);border-radius:14px;padding:16px 12px;}
+.stat b{display:block;font-size:26px;font-weight:800;color:var(--gold);}
+.stat span{font-size:12px;color:var(--muted);}
+
+/* ===== Section ===== */
+section{padding:52px 0 10px;}
+.sec-head{margin-bottom:26px;}
+.sec-head .tag{font-size:12px;letter-spacing:3px;color:var(--cyan);}
+.sec-head h2{font-size:clamp(22px,4.6vw,30px);margin-top:6px;}
+.sec-head p{font-size:13.5px;color:var(--dim);margin-top:8px;max-width:760px;}
+
+/* ===== 时代总览 ===== */
+.eras{display:grid;grid-template-columns:1fr;gap:10px;}
+@media(min-width:720px){.eras{grid-template-columns:repeat(3,1fr);}}
+.era{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px;transition:transform .2s,border-color .2s;}
+.era:hover{transform:translateY(-3px);border-color:var(--gold);}
+.era .e-year{font-size:12px;letter-spacing:1px;color:var(--gold);font-weight:700;}
+.era h3{font-size:17px;margin:6px 0 8px;}
+.era p{font-size:13px;color:var(--muted);}
+
+/* ===== 控制栏 ===== */
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:18px;}
+.chips{display:flex;flex-wrap:wrap;gap:6px;}
+.chip{border:1px solid var(--line);background:var(--panel);color:var(--muted);font-size:12.5px;padding:5px 12px;border-radius:999px;cursor:pointer;transition:all .18s;}
+.chip:hover{border-color:var(--gold);color:var(--text);}
+.chip.on{background:var(--gold);border-color:var(--gold);color:#16181f;font-weight:700;}
+.search{flex:1;min-width:180px;display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 14px;}
+.search input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:14px;}
+.search input::placeholder{color:var(--dim);}
+.search svg{flex:none;}
+
+/* ===== 时间轴 ===== */
+.tl{position:relative;margin-top:8px;}
+.tl::before{content:"";position:absolute;left:18px;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,var(--gold),var(--violet) 40%,var(--cyan) 75%,var(--rose));opacity:.7;}
+@media(min-width:900px){.tl::before{left:50%;transform:translateX(-50%);}}
+.item{position:relative;padding:0 0 26px 52px;}
+@media(min-width:900px){.item{width:50%;padding:0 40px 30px 0;left:0;text-align:right;}.item.right{left:50%;padding:0 0 30px 40px;text-align:left;}}
+.item .dot{position:absolute;left:19px;top:6px;width:16px;height:16px;border-radius:50%;transform:translateX(-50%);border:3px solid var(--bg);z-index:2;}
+@media(min-width:900px){.item .dot{left:50%;}.item.right .dot{left:50%;}}
+.item .dot.lead{width:20px;height:20px;box-shadow:0 0 12px var(--gold);}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;}
+.card:hover{transform:translateY(-2px);border-color:var(--gold);box-shadow:0 8px 24px rgba(245,200,66,.08);}
+.card .y{font-size:12px;letter-spacing:1px;color:var(--gold);font-weight:800;}
+.card .nm{font-size:16.5px;font-weight:700;margin-top:3px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.card .nm .en{font-size:11.5px;color:var(--dim);letter-spacing:1px;font-weight:500;}
+.card .tg{font-size:13px;color:var(--muted);margin-top:5px;}
+.card .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.tag{font-size:11px;padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted);}
+.tag.lead{background:var(--gold);color:#16181f;border-color:var(--gold);font-weight:700;}
+.tag.cat-neural{color:#a78bfa;border-color:rgba(167,139,250,.5);}
+.tag.cat-lang{color:#4ecdc4;border-color:rgba(78,205,196,.5);}
+.tag.cat-vision{color:#4ade80;border-color:rgba(74,222,128,.5);}
+.tag.cat-game{color:#fb7185;border-color:rgba(251,113,133,.5);}
+.tag.cat-sys{color:#f5c842;border-color:rgba(245,200,66,.5);}
+.tag.cat-sci{color:#60a5fa;border-color:rgba(96,165,250,.5);}
+.tag.cat-gen{color:#f9a8d4;border-color:rgba(249,168,212,.5);}
+.empty{text-align:center;color:var(--dim);padding:40px 0;font-size:14px;}
+
+/* ===== 详情面板 ===== */
+.overlay{position:fixed;inset:0;background:rgba(4,6,14,.78);z-index:50;display:none;align-items:flex-end;justify-content:center;}
+@media(min-width:720px){.overlay{align-items:center;}}
+.overlay.open{display:flex;}
+.panel{background:var(--bg2);border:1px solid var(--line);border-radius:18px 18px 0 0;width:100%;max-width:760px;max-height:86vh;overflow-y:auto;padding:26px 22px 30px;position:relative;animation:rise .25s ease;}
+@media(min-width:720px){.panel{border-radius:18px;max-height:82vh;}}
+@keyframes rise{from{transform:translateY(30px);opacity:0;}to{transform:none;opacity:1;}}
+.panel .close{position:absolute;top:14px;right:16px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--text);font-size:18px;cursor:pointer;line-height:1;z-index:3;}
+.panel .close:hover{border-color:var(--rose);color:var(--rose);}
+.panel .p-year{font-size:13px;letter-spacing:2px;color:var(--gold);font-weight:800;}
+.panel h3{font-size:26px;margin:8px 0 4px;}
+.panel .p-en{font-size:13px;letter-spacing:2px;color:var(--dim);}
+.panel .p-tg{font-size:15px;color:var(--cyan);margin:14px 0 4px;font-weight:600;}
+.panel .p-detail{font-size:14px;color:var(--muted);margin-top:10px;}
+.panel .p-more{margin-top:16px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+.panel .p-more-t{font-size:12px;letter-spacing:2px;color:var(--gold);font-weight:700;margin-bottom:8px;}
+.panel .p-more p{font-size:13.5px;color:var(--muted);}
+.panel .p-facts{margin-top:16px;display:grid;grid-template-columns:1fr;gap:8px;}
+@media(min-width:560px){.panel .p-facts{grid-template-columns:1fr 1fr;}}
+.fact{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;}
+.fact b{display:block;font-size:11.5px;color:var(--dim);letter-spacing:1px;margin-bottom:3px;}
+.fact span{font-size:13px;color:var(--text);}
+.panel .p-src{margin-top:18px;font-size:11.5px;color:var(--dim);border-top:1px solid var(--line);padding-top:12px;word-break:break-all;}
+.panel .p-deep{margin-top:20px;border-top:1px solid var(--line);padding-top:16px;}
+.panel .p-deep-t{font-size:15px;font-weight:800;color:var(--gold);margin-bottom:14px;}
+.panel .p-deep-s{margin-bottom:16px;}
+.panel .p-deep-s h4{font-size:13.5px;color:var(--cyan);margin-bottom:6px;font-weight:700;}
+.panel .p-deep-s p{font-size:13px;color:var(--muted);line-height:1.85;}
+
+/* ===== 加速对比 ===== */
+.chart-box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:10px;}
+.chart-box .note{font-size:12px;color:var(--dim);margin-top:8px;}
+.mobile-hint{display:none;font-size:12px;color:var(--dim);margin-top:6px;}
+@media(max-width:719px){.mobile-hint{display:block;}}
+
+/* ===== 易主 ===== */
+.shifts{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+@media(min-width:720px){.shifts{grid-template-columns:repeat(3,1fr);}}
+.shift{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;}
+.shift .s-idx{font-size:11px;color:var(--dim);letter-spacing:2px;}
+.shift .s-from{font-size:13px;color:var(--muted);}
+.shift .s-to{font-size:19px;font-weight:800;color:var(--gold);margin:4px 0;}
+.shift .s-year{font-size:12px;color:var(--cyan);}
+
+/* ===== 前史 ===== */
+.prelude{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+@media(min-width:720px){.prelude{grid-template-columns:repeat(2,1fr);}}
+.pre{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;border-left:3px solid var(--violet);}
+.pre .pre-y{font-size:12px;letter-spacing:1px;color:var(--violet);font-weight:800;}
+.pre h3{font-size:16px;margin:4px 0 2px;}
+.pre .pre-en{font-size:11.5px;color:var(--dim);letter-spacing:1px;}
+.pre p{font-size:13px;color:var(--muted);margin-top:8px;}
+.pre .pre-fact{margin-top:8px;font-size:12px;color:var(--cyan);}
+
+/* ===== 人物志 ===== */
+.people{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+@media(min-width:640px){.people{grid-template-columns:repeat(2,1fr);}}
+@media(min-width:960px){.people{grid-template-columns:repeat(3,1fr);}}
+.person{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;transition:transform .2s,border-color .2s;}
+.person:hover{transform:translateY(-3px);border-color:var(--cyan);}
+.person .p-name{font-size:16.5px;font-weight:700;}
+.person .p-en{font-size:11.5px;color:var(--dim);letter-spacing:1px;}
+.person .p-role{display:inline-block;font-size:11px;color:var(--gold);border:1px solid rgba(245,200,66,.4);border-radius:999px;padding:2px 10px;margin:8px 0;}
+.person p{font-size:13px;color:var(--muted);}
+.person .p-tag{margin-top:10px;font-size:11.5px;color:var(--cyan);}
+.person .p-click-hint{margin-top:10px;font-size:11.5px;color:var(--gold);}
+.person .p-deep-bio{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);}
+.person .p-deep-bio>div{margin-bottom:10px;font-size:12.5px;color:var(--muted);line-height:1.8;}
+.person .p-deep-bio b{color:var(--text);}
+.person .p-deep-bio ul{margin:6px 0 0 18px;}
+.person .p-deep-bio li{margin-bottom:5px;}
+.person .pb-quote{color:var(--gold)!important;font-style:italic;}
+.person .pb-legacy{color:var(--cyan)!important;}
+
+/* ===== 术语表 ===== */
+.terms{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+@media(min-width:720px){.terms{grid-template-columns:repeat(2,1fr);}}
+.term{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;}
+.term .t-name{font-size:16px;font-weight:700;color:var(--cyan);}
+.term .t-en{font-size:11.5px;color:var(--dim);letter-spacing:1px;margin-left:8px;}
+.term p{font-size:13px;color:var(--muted);margin-top:8px;}
+
+/* ===== 关键数字 ===== */
+.figs{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+@media(min-width:720px){.figs{grid-template-columns:repeat(2,1fr);}}
+.fig{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;}
+.fig h3{font-size:16px;margin-bottom:12px;color:var(--gold);}
+.fig table{width:100%;border-collapse:collapse;table-layout:fixed;}
+.fig th,.fig td{padding:7px 6px;text-align:left;font-size:12.5px;border-bottom:1px solid rgba(37,48,92,.5);}
+.fig th{color:var(--dim);font-weight:500;width:58%;}
+.fig td{color:var(--text);}
+.fig .f-note{margin-top:10px;font-size:12px;color:var(--dim);}
+
+/* ===== 治理 ===== */
+.gov{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+@media(min-width:720px){.gov{grid-template-columns:repeat(2,1fr);}}
+.gv{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;border-left:3px solid var(--rose);}
+.gv .g-y{font-size:11.5px;letter-spacing:1px;color:var(--rose);font-weight:700;}
+.gv h3{font-size:16px;margin:4px 0 8px;}
+.gv p{font-size:13px;color:var(--muted);}
+
+/* ===== 大事年表 ===== */
+.chrono{display:grid;grid-template-columns:1fr;gap:6px;margin-top:8px;}
+.ch-row{display:grid;grid-template-columns:72px 1fr;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px;align-items:baseline;}
+.ch-row .ch-y{font-size:13px;font-weight:800;color:var(--gold);}
+.ch-row .ch-e{font-size:13px;color:var(--muted);}
+
+/* ===== 中国视角 ===== */
+.china{display:grid;grid-template-columns:1fr;gap:6px;margin-top:8px;}
+.cn-row{display:grid;grid-template-columns:72px 1fr;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px;align-items:baseline;}
+.cn-row .cn-y{font-size:13px;font-weight:800;color:var(--cyan);}
+.cn-row .cn-e{font-size:13px;color:var(--muted);}
+
+/* ===== 未来展望 ===== */
+.future{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+@media(min-width:720px){.future{grid-template-columns:repeat(2,1fr);}}
+.ft{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;border-left:3px solid var(--gold);}
+.ft h3{font-size:16px;margin-bottom:8px;}
+.ft p{font-size:13px;color:var(--muted);}
+
+/* ===== 经典论文 ===== */
+.papers{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px;}
+@media(min-width:720px){.papers{grid-template-columns:repeat(2,1fr);}}
+.paper{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;border-left:3px solid var(--cyan);}
+.paper .pa-y{font-size:11.5px;color:var(--dim);letter-spacing:1px;font-weight:700;}
+.paper .pa-t{font-size:14.5px;font-weight:700;margin:3px 0;}
+.paper .pa-by{font-size:12px;color:var(--gold);}
+.paper p{font-size:12.5px;color:var(--muted);margin-top:6px;}
+.paper .pa-click{margin-top:8px;font-size:11.5px;color:var(--gold);}
+.paper .pa-deep{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);}
+.paper .pad-sec{margin-bottom:10px;font-size:12px;color:var(--muted);line-height:1.8;}
+.paper .pad-sec b{color:var(--text);}
+.paper .pad-trivia{color:var(--violet)!important;}
+
+/* ===== 应用版图 ===== */
+.apps{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+@media(min-width:720px){.apps{grid-template-columns:repeat(3,1fr);}}
+.app{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;}
+.app h3{font-size:16px;margin-bottom:4px;}
+.app .app-ex{font-size:12px;color:var(--cyan);margin-bottom:8px;}
+.app p{font-size:13px;color:var(--muted);}
+
+/* ===== 风险 ===== */
+.risks{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+@media(min-width:720px){.risks{grid-template-columns:repeat(2,1fr);}}
+.risk{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;border-left:3px solid var(--rose);}
+.risk .rk-tag{display:inline-block;font-size:11px;color:var(--rose);border:1px solid rgba(251,113,133,.4);border-radius:999px;padding:2px 10px;margin-bottom:8px;}
+.risk h3{font-size:16px;margin-bottom:6px;}
+.risk p{font-size:13px;color:var(--muted);}
+
+/* ===== 文化影响 ===== */
+.culture{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+@media(min-width:720px){.culture{grid-template-columns:repeat(2,1fr);}}
+.cult{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;border-left:3px solid var(--violet);}
+.cult h3{font-size:16px;margin-bottom:8px;}
+.cult p{font-size:13px;color:var(--muted);}
+
+/* ===== 实验室图谱 ===== */
+.labs{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+@media(min-width:720px){.labs{grid-template-columns:repeat(2,1fr);}}
+.lab{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;}
+.lab .lb-top{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.lab h3{font-size:16px;}
+.lab .lb-y{font-size:11.5px;color:var(--dim);letter-spacing:1px;}
+.lab .lb-f{font-size:12px;color:var(--gold);margin-top:6px;}
+.lab .lb-focus{font-size:12.5px;color:var(--cyan);margin-top:8px;}
+.lab p{font-size:12.5px;color:var(--muted);margin-top:8px;}
+
+/* ===== 家族谱系 ===== */
+.fams{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+.fam{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;border-left:3px solid var(--gold);}
+.fam .fm-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+.fam .fm-name{font-size:16px;font-weight:700;}
+.fam .fm-owner{font-size:12px;color:var(--cyan);}
+.fam .fm-line{margin-top:10px;font-size:12.5px;color:var(--muted);background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:8px;padding:8px 10px;line-height:1.8;}
+.fam p{margin-top:8px;font-size:12.5px;color:var(--dim);}
+
+/* ===== FAQ ===== */
+.faq{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+.faq-item{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;}
+.faq-item h3{font-size:15.5px;color:var(--gold);margin-bottom:8px;}
+.faq-item p{font-size:13px;color:var(--muted);}
+
+/* ===== 深度专题 ===== */
+.essays{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+.essay{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;}
+.essay .es-tag{display:inline-block;font-size:11px;color:var(--violet);border:1px solid rgba(167,139,250,.4);border-radius:999px;padding:2px 10px;margin-bottom:8px;}
+.essay h3{font-size:19px;margin-bottom:10px;}
+.essay p{font-size:13.5px;color:var(--muted);margin-bottom:10px;}
+.essay p:last-child{margin-bottom:0;}
+
+/* ===== 术语补充 ===== */
+.mterms{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+@media(min-width:720px){.mterms{grid-template-columns:repeat(2,1fr);}}
+.mterm{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;}
+.mterm .mt-name{font-size:15px;font-weight:700;color:var(--cyan);}
+.mterm p{font-size:13px;color:var(--muted);margin-top:8px;}
+
+/* ===== 参考来源 ===== */
+.srcs{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+.src{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;}
+.src .s-name{font-size:15px;font-weight:700;}
+.src .s-by{font-size:12px;color:var(--gold);margin-top:2px;}
+.src p{font-size:13px;color:var(--muted);margin-top:8px;}
+
+/* ===== 数据与算力 ===== */
+.datastory{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+.ds{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;}
+.ds .ds-era{font-size:12px;letter-spacing:1px;color:var(--violet);font-weight:800;}
+.ds h3{font-size:16px;margin:4px 0;}
+.ds .ds-params{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
+.ds .ds-p{font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--cyan);}
+.ds p{font-size:13px;color:var(--muted);}
+.ds .ds-m{margin-top:8px;font-size:12px;color:var(--dim);}
+
+/* ===== 寒冬细节 ===== */
+.wd{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+@media(min-width:720px){.wd{grid-template-columns:repeat(2,1fr);}}
+.wd-col{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;}
+.wd-col h3{font-size:16px;color:var(--rose);margin-bottom:10px;}
+.wd-row{display:grid;grid-template-columns:64px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid rgba(37,48,92,.4);align-items:baseline;}
+.wd-row:last-child{border-bottom:none;}
+.wd-row .wd-y{font-size:12.5px;font-weight:700;color:var(--gold);}
+.wd-row p{font-size:12.5px;color:var(--muted);}
+
+/* ===== 原图集速览 ===== */
+.slides{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px;}
+.sl{display:grid;grid-template-columns:64px 1fr;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;align-items:baseline;}
+.sl .sl-no{font-size:11.5px;color:var(--dim);letter-spacing:1px;font-weight:700;white-space:nowrap;}
+.sl .sl-body h4{font-size:14.5px;font-weight:700;}
+.sl .sl-body p{font-size:12.5px;color:var(--muted);margin-top:3px;}
+
+/* ===== 叙事时间线 ===== */
+.narr{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px;}
+.nr{display:grid;grid-template-columns:130px 1fr;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;align-items:baseline;}
+.nr .nr-l{font-size:13px;font-weight:800;color:var(--gold);}
+.nr p{font-size:12.5px;color:var(--muted);}
+@media(max-width:560px){.nr{grid-template-columns:1fr;gap:4px;}}
+
+/* ===== 引用金句 ===== */
+.quotes{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+.quote{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;border-left:3px solid var(--gold);}
+.quote p{font-size:15px;color:var(--text);font-weight:600;line-height:1.8;}
+.quote .q-by{margin-top:10px;font-size:12px;color:var(--dim);}
+
+/* ===== 延伸阅读 ===== */
+.reading{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+@media(min-width:720px){.reading{grid-template-columns:repeat(3,1fr);}}
+.rd{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;}
+.rd h3{font-size:15.5px;margin-bottom:4px;}
+.rd .rd-au{font-size:12px;color:var(--gold);margin-bottom:8px;}
+.rd p{font-size:12.5px;color:var(--muted);}
+
+/* ===== AI经典书籍与文献推荐 ===== */
+.aibooks{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aibooks{grid-template-columns:repeat(2,1fr);}}
+.book{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.book .book-type{font-size:11px;color:var(--cyan);border:1px solid rgba(78,205,196,.4);border-radius:999px;padding:2px 10px;display:inline-block;margin-bottom:8px;}
+.book h3{font-size:16px;margin-bottom:4px;}
+.book .book-author{font-size:12px;color:var(--dim);margin-bottom:10px;}
+.book p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.book .book-why{font-size:12px;color:var(--gold);padding-top:8px;border-top:1px solid var(--line);}
+
+/* ===== 详细大事年表 ===== */
+.detailedchrono{margin-top:8px;}
+.dc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:10px;}
+.dc .dc-year{font-size:20px;font-weight:900;color:var(--gold);margin-bottom:8px;}
+.dc .dc-event{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:6px;padding-left:16px;position:relative;}
+.dc .dc-event:last-child{margin-bottom:0;}
+.dc .dc-event::before{content:'●';position:absolute;left:0;color:var(--cyan);font-size:8px;top:6px;}
+
+/* ===== AI与时尚深度分析 ===== */
+.aifashion{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aifashion{grid-template-columns:repeat(2,1fr);}}
+.afash{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.afash h3{font-size:17px;margin-bottom:10px;color:#e84393;}
+.afash p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.afash .afash-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.afash .afash-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.afash .afash-list div::before{content:'◇';position:absolute;left:0;color:#e84393;font-size:10px;top:2px;}
+
+/* ===== AI与文学深度分析 ===== */
+.ailiterature{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.ailiterature{grid-template-columns:repeat(2,1fr);}}
+.alit{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.alit h3{font-size:17px;margin-bottom:10px;color:#6c5ce7;}
+.alit p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.alit .alit-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.alit .alit-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.alit .alit-list div::before{content:'✎';position:absolute;left:0;color:#6c5ce7;font-size:10px;top:2px;}
+
+/* ===== AI与历史研究深度分析 ===== */
+.aihistory{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aihistory{grid-template-columns:repeat(2,1fr);}}
+.ahis{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ahis h3{font-size:17px;margin-bottom:10px;color:#d35400;}
+.ahis p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ahis .ahis-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.ahis .ahis-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.ahis .ahis-list div::before{content:'♆';position:absolute;left:0;color:#d35400;font-size:10px;top:2px;}
+
+/* ===== AI与音乐深度分析 ===== */
+.aimusic{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aimusic{grid-template-columns:repeat(2,1fr);}}
+.amus{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.amus h3{font-size:17px;margin-bottom:10px;color:#e91e63;}
+.amus p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.amus .amus-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.amus .amus-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.amus .amus-list div::before{content:'♬';position:absolute;left:0;color:#e91e63;font-size:10px;top:2px;}
+
+/* ===== AI与电影深度分析 ===== */
+.aimovie{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aimovie{grid-template-columns:repeat(2,1fr);}}
+.amov{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.amov h3{font-size:17px;margin-bottom:10px;color:#8e24aa;}
+.amov p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.amov .amov-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.amov .amov-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.amov .amov-list div::before{content:'▶';position:absolute;left:0;color:#8e24aa;font-size:10px;top:2px;}
+
+/* ===== AI与社交媒体深度分析 ===== */
+.aisocial{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aisocial{grid-template-columns:repeat(2,1fr);}}
+.asoc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.asoc h3{font-size:17px;margin-bottom:10px;color:#1e88e5;}
+.asoc p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.asoc .asoc-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.asoc .asoc-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.asoc .asoc-list div::before{content:'✆';position:absolute;left:0;color:#1e88e5;font-size:10px;top:2px;}
+
+/* ===== AI与旅游深度分析 ===== */
+.aitravel{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aitravel{grid-template-columns:repeat(2,1fr);}}
+.atrv{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.atrv h3{font-size:17px;margin-bottom:10px;color:#00b894;}
+.atrv p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.atrv .atrv-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.atrv .atrv-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.atrv .atrv-list div::before{content:'✈';position:absolute;left:0;color:#00b894;font-size:10px;top:2px;}
+
+/* ===== AI与酒店深度分析 ===== */
+.aihotel{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aihotel{grid-template-columns:repeat(2,1fr);}}
+.ahtl{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ahtl h3{font-size:17px;margin-bottom:10px;color:#fdcb6e;}
+.ahtl p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ahtl .ahtl-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.ahtl .ahtl-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.ahtl .ahtl-list div::before{content:'☕';position:absolute;left:0;color:#fdcb6e;font-size:10px;top:2px;}
+
+/* ===== AI与房地产深度分析 ===== */
+.airealestate{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.airealestate{grid-template-columns:repeat(2,1fr);}}
+.are{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.are h3{font-size:17px;margin-bottom:10px;color:#0984e3;}
+.are p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.are .are-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.are .are-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.are .are-list div::before{content:'⌂';position:absolute;left:0;color:#0984e3;font-size:10px;top:2px;}
+
+/* ===== AI与保险深度分析 ===== */
+.aiinsurance{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiinsurance{grid-template-columns:repeat(2,1fr);}}
+.ains{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ains h3{font-size:17px;margin-bottom:10px;color:#2d3436;}
+.ains p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ains .ains-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.ains .ains-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.ains .ains-list div::before{content:'☂';position:absolute;left:0;color:#2d3436;font-size:10px;top:2px;}
+
+/* ===== AI与人力资源深度分析 ===== */
+.aihr{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aihr{grid-template-columns:repeat(2,1fr);}}
+.ahr{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ahr h3{font-size:17px;margin-bottom:10px;color:#e17055;}
+.ahr p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ahr .ahr-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.ahr .ahr-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.ahr .ahr-list div::before{content:'☺';position:absolute;left:0;color:#e17055;font-size:10px;top:2px;}
+
+/* ===== AI与供应链物流深度分析 ===== */
+.aisupplychain{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aisupplychain{grid-template-columns:repeat(2,1fr);}}
+.asup{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.asup h3{font-size:17px;margin-bottom:10px;color:#6ab04c;}
+.asup p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.asup .asup-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.asup .asup-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.asup .asup-list div::before{content:'⇄';position:absolute;left:0;color:#6ab04c;font-size:10px;top:2px;}
+
+/* ===== AI与建筑设计深度分析 ===== */
+.aibuilding{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aibuilding{grid-template-columns:repeat(2,1fr);}}
+.abld{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.abld h3{font-size:17px;margin-bottom:10px;color:#795548;}
+.abld p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.abld .abld-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.abld .abld-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.abld .abld-list div::before{content:'▲';position:absolute;left:0;color:#795548;font-size:10px;top:2px;}
+
+/* ===== AI与材料科学深度分析 ===== */
+.aimaterials{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aimaterials{grid-template-columns:repeat(2,1fr);}}
+.amat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.amat h3{font-size:17px;margin-bottom:10px;color:#607d8b;}
+.amat p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.amat .amat-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.amat .amat-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.amat .amat-list div::before{content:'◍';position:absolute;left:0;color:#607d8b;font-size:10px;top:2px;}
+
+/* ===== AI与化学深度分析 ===== */
+.aichemistry{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aichemistry{grid-template-columns:repeat(2,1fr);}}
+.achm{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.achm h3{font-size:17px;margin-bottom:10px;color:#00897b;}
+.achm p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.achm .achm-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.achm .achm-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.achm .achm-list div::before{content:'◉';position:absolute;left:0;color:#00897b;font-size:10px;top:2px;}
+
+/* ===== AI与数学深度分析 ===== */
+.aimath{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aimath{grid-template-columns:repeat(2,1fr);}}
+.amth{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.amth h3{font-size:17px;margin-bottom:10px;color:#30336b;}
+.amth p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.amth .amth-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.amth .amth-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.amth .amth-list div::before{content:'∑';position:absolute;left:0;color:#30336b;font-size:10px;top:2px;}
+
+/* ===== AI与物理深度分析 ===== */
+.aiphysics{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiphysics{grid-template-columns:repeat(2,1fr);}}
+.aphy{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aphy h3{font-size:17px;margin-bottom:10px;color:#130f40;}
+.aphy p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aphy .aphy-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aphy .aphy-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aphy .aphy-list div::before{content:'≋';position:absolute;left:0;color:#130f40;font-size:10px;top:2px;}
+
+/* ===== AI与生物科学深度分析 ===== */
+.aibio{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aibio{grid-template-columns:repeat(2,1fr);}}
+.abio{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.abio h3{font-size:17px;margin-bottom:10px;color:#0be881;}
+.abio p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.abio .abio-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.abio .abio-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.abio .abio-list div::before{content:'❧';position:absolute;left:0;color:#0be881;font-size:10px;top:2px;}
+
+/* ===== AI与网络安全深度分析 ===== */
+.aicyber{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aicyber{grid-template-columns:repeat(2,1fr);}}
+.acyb{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.acyb h3{font-size:17px;margin-bottom:10px;color:#d63031;}
+.acyb p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.acyb .acyb-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.acyb .acyb-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.acyb .acyb-list div::before{content:'⌘';position:absolute;left:0;color:#d63031;font-size:10px;top:2px;}
+
+/* ===== AI与量子计算深度分析 ===== */
+.aiqcomputing{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiqcomputing{grid-template-columns:repeat(2,1fr);}}
+.aqcp{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aqcp h3{font-size:17px;margin-bottom:10px;color:#6c5ce7;}
+.aqcp p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aqcp .aqcp-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aqcp .aqcp-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aqcp .aqcp-list div::before{content:'◎';position:absolute;left:0;color:#6c5ce7;font-size:10px;top:2px;}
+
+/* ===== AI与神经科学深度分析 ===== */
+.aineuro{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aineuro{grid-template-columns:repeat(2,1fr);}}
+.aneu{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aneu h3{font-size:17px;margin-bottom:10px;color:#fd79a8;}
+.aneu p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aneu .aneu-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aneu .aneu-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aneu .aneu-list div::before{content:'❋';position:absolute;left:0;color:#fd79a8;font-size:10px;top:2px;}
+
+/* ===== AI与养老深度分析 ===== */
+.aiaging{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiaging{grid-template-columns:repeat(2,1fr);}}
+.aage{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aage h3{font-size:17px;margin-bottom:10px;color:#b2bec3;}
+.aage p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aage .aage-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aage .aage-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aage .aage-list div::before{content:'❖';position:absolute;left:0;color:#b2bec3;font-size:10px;top:2px;}
+
+/* ===== AI与无障碍深度分析 ===== */
+.aitb{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aitb{grid-template-columns:repeat(2,1fr);}}
+.ainc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ainc h3{font-size:17px;margin-bottom:10px;color:#0984e3;}
+.ainc p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ainc .ainc-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.ainc .ainc-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.ainc .ainc-list div::before{content:'♿';position:absolute;left:0;color:#0984e3;font-size:10px;top:2px;}
+
+/* ===== AI与气象气候深度分析 ===== */
+.aiweather{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiweather{grid-template-columns:repeat(2,1fr);}}
+.awth{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.awth h3{font-size:17px;margin-bottom:10px;color:#00cec9;}
+.awth p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.awth .awth-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.awth .awth-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.awth .awth-list div::before{content:'☁';position:absolute;left:0;color:#00cec9;font-size:10px;top:2px;}
+
+/* ===== AI与海洋深度分析 ===== */
+.aimarine{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aimarine{grid-template-columns:repeat(2,1fr);}}
+.amrn{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.amrn h3{font-size:17px;margin-bottom:10px;color:#00a8ff;}
+.amrn p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.amrn .amrn-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.amrn .amrn-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.amrn .amrn-list div::before{content:'≈';position:absolute;left:0;color:#00a8ff;font-size:10px;top:2px;}
+
+/* ===== AI与城市治理深度分析 ===== */
+.aicity{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aicity{grid-template-columns:repeat(2,1fr);}}
+.acty{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.acty h3{font-size:17px;margin-bottom:10px;color:#9c88ff;}
+.acty p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.acty .acty-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.acty .acty-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.acty .acty-list div::before{content:'▣';position:absolute;left:0;color:#9c88ff;font-size:10px;top:2px;}
+
+/* ===== AI与公共安全深度分析 ===== */
+.aipublicsafety{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aipublicsafety{grid-template-columns:repeat(2,1fr);}}
+.apub{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.apub h3{font-size:17px;margin-bottom:10px;color:#f368e0;}
+.apub p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.apub .apub-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.apub .apub-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.apub .apub-list div::before{content:'⚑';position:absolute;left:0;color:#f368e0;font-size:10px;top:2px;}
+
+/* ===== AI与外交地缘深度分析 ===== */
+.aigeopolitics{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aigeopolitics{grid-template-columns:repeat(2,1fr);}}
+.agpl{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.agpl h3{font-size:17px;margin-bottom:10px;color:#b33939;}
+.agpl p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.agpl .agpl-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.agpl .agpl-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.agpl .agpl-list div::before{content:'⊕';position:absolute;left:0;color:#b33939;font-size:10px;top:2px;}
+
+/* ===== AI与选举民主深度分析 ===== */
+.aielection{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aielection{grid-template-columns:repeat(2,1fr);}}
+.aelc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aelc h3{font-size:17px;margin-bottom:10px;color:#6d214f;}
+.aelc p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aelc .aelc-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aelc .aelc-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aelc .aelc-list div::before{content:'➤';position:absolute;left:0;color:#6d214f;font-size:10px;top:2px;}
+
+/* ===== AI与政府治理深度分析 ===== */
+.aigovernance{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aigovernance{grid-template-columns:repeat(2,1fr);}}
+.agov{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.agov h3{font-size:17px;margin-bottom:10px;color:#3c6382;}
+.agov p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.agov .agov-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.agov .agov-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.agov .agov-list div::before{content:'⚖';position:absolute;left:0;color:#3c6382;font-size:10px;top:2px;}
+
+/* ===== AI与体育赛事深度分析 ===== */
+.aisports{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aisports{grid-template-columns:repeat(2,1fr);}}
+.astr{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.astr h3{font-size:17px;margin-bottom:10px;color:#e58e26;}
+.astr p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.astr .astr-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.astr .astr-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.astr .astr-list div::before{content:'◈';position:absolute;left:0;color:#e58e26;font-size:10px;top:2px;}
+
+/* ===== AI与宗教哲学深度分析 ===== */
+.aireligion{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aireligion{grid-template-columns:repeat(2,1fr);}}
+.arlg{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.arlg h3{font-size:17px;margin-bottom:10px;color:#82589f;}
+.arlg p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.arlg .arlg-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.arlg .arlg-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.arlg .arlg-list div::before{content:'✦';position:absolute;left:0;color:#82589f;font-size:10px;top:2px;}
+
+/* ===== AI与新闻传播深度分析 ===== */
+.ainews{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.ainews{grid-template-columns:repeat(2,1fr);}}
+.anws{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.anws h3{font-size:17px;margin-bottom:10px;color:#0abde3;}
+.anws p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.anws .anws-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.anws .anws-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.anws .anws-list div::before{content:'✒';position:absolute;left:0;color:#0abde3;font-size:10px;top:2px;}
+
+/* ===== AI与奢侈品时尚深度分析 ===== */
+.ailuxury{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.ailuxury{grid-template-columns:repeat(2,1fr);}}
+.alux{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.alux h3{font-size:17px;margin-bottom:10px;color:#b71540;}
+.alux p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.alux .alux-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.alux .alux-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.alux .alux-list div::before{content:'♛';position:absolute;left:0;color:#b71540;font-size:10px;top:2px;}
+
+/* ===== AI与美妆深度分析 ===== */
+.aibeauty{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aibeauty{grid-template-columns:repeat(2,1fr);}}
+.aby{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aby h3{font-size:17px;margin-bottom:10px;color:#e84393;}
+.aby p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aby .aby-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aby .aby-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aby .aby-list div::before{content:'❀';position:absolute;left:0;color:#e84393;font-size:10px;top:2px;}
+
+/* ===== AI与餐饮美食深度分析 ===== */
+.aifood{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aifood{grid-template-columns:repeat(2,1fr);}}
+.afd{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.afd h3{font-size:17px;margin-bottom:10px;color:#fab1a0;}
+.afd p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.afd .afd-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.afd .afd-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.afd .afd-list div::before{content:'◉';position:absolute;left:0;color:#fab1a0;font-size:10px;top:2px;}
+
+/* ===== AI与物流快递深度分析 ===== */
+.ailogistics{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.ailogistics{grid-template-columns:repeat(2,1fr);}}
+.algx{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.algx h3{font-size:17px;margin-bottom:10px;color:#f8c291;}
+.algx p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.algx .algx-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.algx .algx-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.algx .algx-list div::before{content:'⇥';position:absolute;left:0;color:#f8c291;font-size:10px;top:2px;}
+
+/* ===== AI与区块链深度分析 ===== */
+.aiblockchain{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiblockchain{grid-template-columns:repeat(2,1fr);}}
+.ablk{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ablk h3{font-size:17px;margin-bottom:10px;color:#f6b93b;}
+.ablk p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ablk .ablk-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.ablk .ablk-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.ablk .ablk-list div::before{content:'◘';position:absolute;left:0;color:#f6b93b;font-size:10px;top:2px;}
+
+/* ===== AI与物联网深度分析 ===== */
+.aiiot{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiiot{grid-template-columns:repeat(2,1fr);}}
+.aiot{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aiot h3{font-size:17px;margin-bottom:10px;color:#78e08f;}
+.aiot p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aiot .aiot-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aiot .aiot-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aiot .aiot-list div::before{content:'◉';position:absolute;left:0;color:#78e08f;font-size:10px;top:2px;}
+
+/* ===== AI与芯片制造深度分析 ===== */
+.aichipfab{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aichipfab{grid-template-columns:repeat(2,1fr);}}
+.achp{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.achp h3{font-size:17px;margin-bottom:10px;color:#f5cd79;}
+.achp p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.achp .achp-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.achp .achp-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.achp .achp-list div::before{content:'⌁';position:absolute;left:0;color:#f5cd79;font-size:10px;top:2px;}
+
+/* ===== AI与数据中心深度分析 ===== */
+.aidatacenter{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aidatacenter{grid-template-columns:repeat(2,1fr);}}
+.adct{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.adct h3{font-size:17px;margin-bottom:10px;color:#778beb;}
+.adct p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.adct .adct-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.adct .adct-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.adct .adct-list div::before{content:'⧉';position:absolute;left:0;color:#778beb;font-size:10px;top:2px;}
+
+/* ===== AI与人形机器人深度分析 ===== */
+.aihumanoid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aihumanoid{grid-template-columns:repeat(2,1fr);}}
+.ahmd{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ahmd h3{font-size:17px;margin-bottom:10px;color:#f7d794;}
+.ahmd p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ahmd .ahmd-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.ahmd .ahmd-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.ahmd .ahmd-list div::before{content:'⛭';position:absolute;left:0;color:#f7d794;font-size:10px;top:2px;}
+
+/* ===== AI之最与冷知识 ===== */
+.airecords{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.airecords{grid-template-columns:repeat(2,1fr);}}
+.arcc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.arcc h3{font-size:17px;margin-bottom:10px;color:#f8a5c2;}
+.arcc p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.arcc .arcc-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.arcc .arcc-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.arcc .arcc-list div::before{content:'★';position:absolute;left:0;color:#f8a5c2;font-size:10px;top:2px;}
+
+/* ===== AI基准测试大全 ===== */
+.aibench{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aibench{grid-template-columns:repeat(2,1fr);}}
+.aben{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aben h3{font-size:17px;margin-bottom:10px;color:#63cdda;}
+.aben p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aben .aben-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aben .aben-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aben .aben-list div::before{content:'▤';position:absolute;left:0;color:#63cdda;font-size:10px;top:2px;}
+
+/* ===== AI未来预测 ===== */
+.aipredict{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aipredict{grid-template-columns:repeat(2,1fr);}}
+.aprd{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aprd h3{font-size:17px;margin-bottom:10px;color:#fdcb6e;}
+.aprd p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aprd .aprd-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aprd .aprd-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aprd .aprd-list div::before{content:'➤';position:absolute;left:0;color:#fdcb6e;font-size:10px;top:2px;}
+
+/* ===== AI模型档案 ===== */
+.aimodelarchive{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aimodelarchive{grid-template-columns:repeat(2,1fr);}}
+.ama{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ama h3{font-size:17px;margin-bottom:10px;color:#7bed9f;}
+.ama p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ama .ama-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.ama .ama-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.ama .ama-list div::before{content:'▣';position:absolute;left:0;color:#7bed9f;font-size:10px;top:2px;}
+
+/* ===== AI大事编年史 ===== */
+.aichrono{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aichrono{grid-template-columns:repeat(2,1fr);}}
+.achn{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.achn h3{font-size:17px;margin-bottom:10px;color:#ff9ff3;}
+.achn p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.achn .achn-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.achn .achn-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.achn .achn-list div::before{content:'◭';position:absolute;left:0;color:#ff9ff3;font-size:10px;top:2px;}
+
+/* ===== AI与社交未来 ===== */
+.aisocial{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aisocial{grid-template-columns:repeat(2,1fr);}}
+.ascl{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ascl h3{font-size:17px;margin-bottom:10px;color:#feca57;}
+.ascl p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ascl .ascl-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.ascl .ascl-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.ascl .ascl-list div::before{content:'◍';position:absolute;left:0;color:#feca57;font-size:10px;top:2px;}
+
+/* ===== AI与家庭生活 ===== */
+.aihome{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aihome{grid-template-columns:repeat(2,1fr);}}
+.ahom{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ahom h3{font-size:17px;margin-bottom:10px;color:#ff7675;}
+.ahom p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ahom .ahom-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.ahom .ahom-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.ahom .ahom-list div::before{content:'⌂';position:absolute;left:0;color:#ff7675;font-size:10px;top:2px;}
+
+/* ===== AI与宠物 ===== */
+.aipet{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aipet{grid-template-columns:repeat(2,1fr);}}
+.apt{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.apt h3{font-size:17px;margin-bottom:10px;color:#f0932b;}
+.apt p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.apt .apt-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.apt .apt-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.apt .apt-list div::before{content:'❋';position:absolute;left:0;color:#f0932b;font-size:10px;top:2px;}
+
+/* ===== AI与健身运动 ===== */
+.aifitness{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aifitness{grid-template-columns:repeat(2,1fr);}}
+.afit{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.afit h3{font-size:17px;margin-bottom:10px;color:#55efc4;}
+.afit p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.afit .afit-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.afit .afit-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.afit .afit-list div::before{content:'⚡';position:absolute;left:0;color:#55efc4;font-size:10px;top:2px;}
+
+/* ===== AI与航空 ===== */
+.aiaviation{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiaviation{grid-template-columns:repeat(2,1fr);}}
+.aav{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aav h3{font-size:17px;margin-bottom:10px;color:#74b9ff;}
+.aav p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aav .aav-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aav .aav-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aav .aav-list div::before{content:'✈';position:absolute;left:0;color:#74b9ff;font-size:10px;top:2px;}
+
+/* ===== AI与铁路 ===== */
+.airail{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.airail{grid-template-columns:repeat(2,1fr);}}
+.arl{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.arl h3{font-size:17px;margin-bottom:10px;color:#a29bfe;}
+.arl p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.arl .arl-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.arl .arl-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.arl .arl-list div::before{content:'◪';position:absolute;left:0;color:#a29bfe;font-size:10px;top:2px;}
+
+/* ===== AI与核能 ===== */
+.ainuclear{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.ainuclear{grid-template-columns:repeat(2,1fr);}}
+.anuc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.anuc h3{font-size:17px;margin-bottom:10px;color:#ffeaa7;}
+.anuc p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.anuc .anuc-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.anuc .anuc-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.anuc .anuc-list div::before{content:'☢';position:absolute;left:0;color:#ffeaa7;font-size:10px;top:2px;}
+
+/* ===== AI与水资源 ===== */
+.aiwater{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiwater{grid-template-columns:repeat(2,1fr);}}
+.awtr{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.awtr h3{font-size:17px;margin-bottom:10px;color:#22a6b3;}
+.awtr p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.awtr .awtr-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.awtr .awtr-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.awtr .awtr-list div::before{content:'≈';position:absolute;left:0;color:#22a6b3;font-size:10px;top:2px;}
+
+/* ===== AI与森林 ===== */
+.aiforest{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiforest{grid-template-columns:repeat(2,1fr);}}
+.afrs{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.afrs h3{font-size:17px;margin-bottom:10px;color:#badc58;}
+.afrs p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.afrs .afrs-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.afrs .afrs-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.afrs .afrs-list div::before{content:'❦';position:absolute;left:0;color:#badc58;font-size:10px;top:2px;}
+
+/* ===== AI与矿业 ===== */
+.aimining{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aimining{grid-template-columns:repeat(2,1fr);}}
+.amng{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.amng h3{font-size:17px;margin-bottom:10px;color:#d1d8e0;}
+.amng p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.amng .amng-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.amng .amng-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.amng .amng-list div::before{content:'◬';position:absolute;left:0;color:#d1d8e0;font-size:10px;top:2px;}
+
+/* ===== AI与碳中和 ===== */
+.aicarbon{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aicarbon{grid-template-columns:repeat(2,1fr);}}
+.acbn{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.acbn h3{font-size:17px;margin-bottom:10px;color:#26de81;}
+.acbn p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.acbn .acbn-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.acbn .acbn-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.acbn .acbn-list div::before{content:'◈';position:absolute;left:0;color:#26de81;font-size:10px;top:2px;}
+
+/* ===== AI与循环经济 ===== */
+.aicircular{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aicircular{grid-template-columns:repeat(2,1fr);}}
+.acir{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.acir h3{font-size:17px;margin-bottom:10px;color:#a55eea;}
+.acir p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.acir .acir-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.acir .acir-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.acir .acir-list div::before{content:'↻';position:absolute;left:0;color:#a55eea;font-size:10px;top:2px;}
+
+/* ===== AI与ESG ===== */
+.aiesg{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiesg{grid-template-columns:repeat(2,1fr);}}
+.aesg{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aesg h3{font-size:17px;margin-bottom:10px;color:#7ed6df;}
+.aesg p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aesg .aesg-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aesg .aesg-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aesg .aesg-list div::before{content:'⛀';position:absolute;left:0;color:#7ed6df;font-size:10px;top:2px;}
+
+/* ===== AI经典语录 ===== */
+.aiquotes{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiquotes{grid-template-columns:repeat(2,1fr);}}
+.aqts{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aqts h3{font-size:17px;margin-bottom:10px;color:#ffcccc;}
+.aqts p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aqts .aqts-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aqts .aqts-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aqts .aqts-list div::before{content:'❝';position:absolute;left:0;color:#ffcccc;font-size:10px;top:2px;}
+
+/* ===== AI论文导读第二批 ===== */
+.aipapers2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aipapers2{grid-template-columns:repeat(2,1fr);}}
+.appr{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.appr h3{font-size:17px;margin-bottom:10px;color:#c8d6e5;}
+.appr p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.appr .appr-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.appr .appr-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.appr .appr-list div::before{content:'❧';position:absolute;left:0;color:#c8d6e5;font-size:10px;top:2px;}
+
+/* ===== AI术语扩展 ===== */
+.aiglossary2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiglossary2{grid-template-columns:repeat(2,1fr);}}
+.agls{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.agls h3{font-size:17px;margin-bottom:10px;color:#81ecec;}
+.agls p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.agls .agls-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.agls .agls-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.agls .agls-list div::before{content:'◇';position:absolute;left:0;color:#81ecec;font-size:10px;top:2px;}
+
+/* ===== AI与儿童发展 ===== */
+.aichild{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aichild{grid-template-columns:repeat(2,1fr);}}
+.achl{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.achl h3{font-size:17px;margin-bottom:10px;color:#fd79a8;}
+.achl p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.achl .achl-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.achl .achl-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.achl .achl-list div::before{content:'❀';position:absolute;left:0;color:#fd79a8;font-size:10px;top:2px;}
+
+/* ===== AI与教育未来 ===== */
+.aiedu2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiedu2{grid-template-columns:repeat(2,1fr);}}
+.aed2{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aed2 h3{font-size:17px;margin-bottom:10px;color:#00b894;}
+.aed2 p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aed2 .aed2-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aed2 .aed2-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aed2 .aed2-list div::before{content:'✎';position:absolute;left:0;color:#00b894;font-size:10px;top:2px;}
+
+/* ===== AI与青少年保护 ===== */
+.aiyouth{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiyouth{grid-template-columns:repeat(2,1fr);}}
+.ayth{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ayth h3{font-size:17px;margin-bottom:10px;color:#e17055;}
+.ayth p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ayth .ayth-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.ayth .ayth-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.ayth .ayth-list div::before{content:'❖';position:absolute;left:0;color:#e17055;font-size:10px;top:2px;}
+
+/* ===== AI与公共卫生 ===== */
+.aipubhealth{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aipubhealth{grid-template-columns:repeat(2,1fr);}}
+.apbh{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.apbh h3{font-size:17px;margin-bottom:10px;color:#dfe6e9;}
+.apbh p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.apbh .apbh-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.apbh .apbh-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.apbh .apbh-list div::before{content:'❋';position:absolute;left:0;color:#dfe6e9;font-size:10px;top:2px;}
+
+/* ===== AI与流行病 ===== */
+.aiepidemic{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiepidemic{grid-template-columns:repeat(2,1fr);}}
+.aepd{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aepd h3{font-size:17px;margin-bottom:10px;color:#fab1a0;}
+.aepd p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aepd .aepd-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aepd .aepd-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aepd .aepd-list div::before{content:'✚';position:absolute;left:0;color:#fab1a0;font-size:10px;top:2px;}
+
+/* ===== AI与全球健康 ===== */
+.aiglobalhealth{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiglobalhealth{grid-template-columns:repeat(2,1fr);}}
+.agbh{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.agbh h3{font-size:17px;margin-bottom:10px;color:#55a3ff;}
+.agbh p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.agbh .agbh-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.agbh .agbh-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.agbh .agbh-list div::before{content:'❍';position:absolute;left:0;color:#55a3ff;font-size:10px;top:2px;}
+
+/* ===== AI书籍第二批 ===== */
+.aibooks2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aibooks2{grid-template-columns:repeat(2,1fr);}}
+.abk2{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.abk2 h3{font-size:17px;margin-bottom:10px;color:#feca57;}
+.abk2 p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.abk2 .abk2-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.abk2 .abk2-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.abk2 .abk2-list div::before{content:'▤';position:absolute;left:0;color:#feca57;font-size:10px;top:2px;}
+
+/* ===== AI影视第二批 ===== */
+.aimovies2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aimovies2{grid-template-columns:repeat(2,1fr);}}
+.amv2{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.amv2 h3{font-size:17px;margin-bottom:10px;color:#6c5ce7;}
+.amv2 p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.amv2 .amv2-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.amv2 .amv2-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.amv2 .amv2-list div::before{content:'✺';position:absolute;left:0;color:#6c5ce7;font-size:10px;top:2px;}
+
+/* ===== AI FAQ第二批 ===== */
+.aifaq2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aifaq2{grid-template-columns:repeat(2,1fr);}}
+.afq2{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.afq2 h3{font-size:17px;margin-bottom:10px;color:#74b9ff;}
+.afq2 p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.afq2 .afq2-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.afq2 .afq2-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.afq2 .afq2-list div::before{content:'❓';position:absolute;left:0;color:#74b9ff;font-size:10px;top:2px;}
+
+/* ===== AI文化深度2 ===== */
+.aiculture2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiculture2{grid-template-columns:repeat(2,1fr);}}
+.act2{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.act2 h3{font-size:17px;margin-bottom:10px;color:#ff9ff3;}
+.act2 p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.act2 .act2-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.act2 .act2-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.act2 .act2-list div::before{content:'◈';position:absolute;left:0;color:#ff9ff3;font-size:10px;top:2px;}
+
+/* ===== 中国AI故事 ===== */
+.aichinastory{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aichinastory{grid-template-columns:repeat(2,1fr);}}
+.acns{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.acns h3{font-size:17px;margin-bottom:10px;color:#ff6b81;}
+.acns p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.acns .acns-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.acns .acns-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.acns .acns-list div::before{content:'❖';position:absolute;left:0;color:#ff6b81;font-size:10px;top:2px;}
+
+/* ===== AI时代生存指南 ===== */
+.aisurvival{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aisurvival{grid-template-columns:repeat(2,1fr);}}
+.asrv{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.asrv h3{font-size:17px;margin-bottom:10px;color:#70a1ff;}
+.asrv p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.asrv .asrv-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.asrv .asrv-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.asrv .asrv-list div::before{content:'➤';position:absolute;left:0;color:#70a1ff;font-size:10px;top:2px;}
+
+/* ===== AI与茶酒 ===== */
+.aiteawine{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiteawine{grid-template-columns:repeat(2,1fr);}}
+.atw{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.atw h3{font-size:17px;margin-bottom:10px;color:#cd6133;}
+.atw p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.atw .atw-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.atw .atw-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.atw .atw-list div::before{content:'❉';position:absolute;left:0;color:#cd6133;font-size:10px;top:2px;}
+
+/* ===== AI与婚礼 ===== */
+.aiwedding{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiwedding{grid-template-columns:repeat(2,1fr);}}
+.awed{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.awed h3{font-size:17px;margin-bottom:10px;color:#ff9ff3;}
+.awed p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.awed .awed-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.awed .awed-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.awed .awed-list div::before{content:'❀';position:absolute;left:0;color:#ff9ff3;font-size:10px;top:2px;}
+
+/* ===== AI行业全景 ===== */
+.aiindustrymap{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiindustrymap{grid-template-columns:repeat(2,1fr);}}
+.aimp{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aimp h3{font-size:17px;margin-bottom:10px;color:#a29bfe;}
+.aimp p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aimp .aimp-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aimp .aimp-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aimp .aimp-list div::before{content:'◮';position:absolute;left:0;color:#a29bfe;font-size:10px;top:2px;}
+
+/* ===== AI与科学方法 ===== */
+.aisciencemethod{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aisciencemethod{grid-template-columns:repeat(2,1fr);}}
+.ascm{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ascm h3{font-size:17px;margin-bottom:10px;color:#dfe6e9;}
+.ascm p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ascm .ascm-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.ascm .ascm-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.ascm .ascm-list div::before{content:'⌬';position:absolute;left:0;color:#dfe6e9;font-size:10px;top:2px;}
+
+/* ===== AI与世界和平 ===== */
+.aipeace{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aipeace{grid-template-columns:repeat(2,1fr);}}
+.apea{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.apea h3{font-size:17px;margin-bottom:10px;color:#55efc4;}
+.apea p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.apea .apea-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.apea .apea-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.apea .apea-list div::before{content:'☮';position:absolute;left:0;color:#55efc4;font-size:10px;top:2px;}
+
+/* ===== AI与公益慈善 ===== */
+.aiphilanthropy{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiphilanthropy{grid-template-columns:repeat(2,1fr);}}
+.aphl{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aphl h3{font-size:17px;margin-bottom:10px;color:#fdcb6e;}
+.aphl p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aphl .aphl-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aphl .aphl-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aphl .aphl-list div::before{content:'✚';position:absolute;left:0;color:#fdcb6e;font-size:10px;top:2px;}
+
+/* ===== AI与创客 ===== */
+.aimaker{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aimaker{grid-template-columns:repeat(2,1fr);}}
+.amkr{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.amkr h3{font-size:17px;margin-bottom:10px;color:#ffd32a;}
+.amkr p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.amkr .amkr-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.amkr .amkr-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.amkr .amkr-list div::before{content:'⚙';position:absolute;left:0;color:#ffd32a;font-size:10px;top:2px;}
+
+/* ===== AI与手工艺 ===== */
+.aicraft{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aicraft{grid-template-columns:repeat(2,1fr);}}
+.acrf{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.acrf h3{font-size:17px;margin-bottom:10px;color:#f8a5c2;}
+.acrf p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.acrf .acrf-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.acrf .acrf-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.acrf .acrf-list div::before{content:'❋';position:absolute;left:0;color:#f8a5c2;font-size:10px;top:2px;}
+
+/* ===== AI与文明 ===== */
+.aicivilization{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aicivilization{grid-template-columns:repeat(2,1fr);}}
+.aciv{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aciv h3{font-size:17px;margin-bottom:10px;color:#eccc68;}
+.aciv p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aciv .aciv-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aciv .aciv-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aciv .aciv-list div::before{content:'✦';position:absolute;left:0;color:#eccc68;font-size:10px;top:2px;}
+
+/* ===== AI与地球科学 ===== */
+.aigeoscience{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aigeoscience{grid-template-columns:repeat(2,1fr);}}
+.ageo{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ageo h3{font-size:17px;margin-bottom:10px;color:#7bed9f;}
+.ageo p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ageo .ageo-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.ageo .ageo-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.ageo .ageo-list div::before{content:'◍';position:absolute;left:0;color:#7bed9f;font-size:10px;top:2px;}
+
+/* ===== AI与深空 ===== */
+.aideepspace{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aideepspace{grid-template-columns:repeat(2,1fr);}}
+.adsp{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.adsp h3{font-size:17px;margin-bottom:10px;color:#70a1ff;}
+.adsp p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.adsp .adsp-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.adsp .adsp-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.adsp .adsp-list div::before{content:'☄';position:absolute;left:0;color:#70a1ff;font-size:10px;top:2px;}
+
+/* ===== AI与极地 ===== */
+.aipolar{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aipolar{grid-template-columns:repeat(2,1fr);}}
+.apor{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.apor h3{font-size:17px;margin-bottom:10px;color:#81ecec;}
+.apor p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.apor .apor-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.apor .apor-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.apor .apor-list div::before{content:'❆';position:absolute;left:0;color:#81ecec;font-size:10px;top:2px;}
+
+/* ===== AI数学深度 ===== */
+.aimath2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aimath2{grid-template-columns:repeat(2,1fr);}}
+.amth{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.amth h3{font-size:17px;margin-bottom:10px;color:#ff7675;}
+.amth p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.amth .amth-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.amth .amth-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.amth .amth-list div::before{content:'∑';position:absolute;left:0;color:#ff7675;font-size:10px;top:2px;}
+
+/* ===== AI物理深度 ===== */
+.aiphysics2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiphysics2{grid-template-columns:repeat(2,1fr);}}
+.aphy{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aphy h3{font-size:17px;margin-bottom:10px;color:#74b9ff;}
+.aphy p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aphy .aphy-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aphy .aphy-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aphy .aphy-list div::before{content:'✶';position:absolute;left:0;color:#74b9ff;font-size:10px;top:2px;}
+
+/* ===== AI化学深度 ===== */
+.aichem2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aichem2{grid-template-columns:repeat(2,1fr);}}
+.achm{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.achm h3{font-size:17px;margin-bottom:10px;color:#55efc4;}
+.achm p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.achm .achm-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.achm .achm-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.achm .achm-list div::before{content:'⚗';position:absolute;left:0;color:#55efc4;font-size:10px;top:2px;}
+
+/* ===== AI生物深度 ===== */
+.aibio2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aibio2{grid-template-columns:repeat(2,1fr);}}
+.abio{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.abio h3{font-size:17px;margin-bottom:10px;color:#2ed573;}
+.abio p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.abio .abio-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.abio .abio-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.abio .abio-list div::before{content:'✿';position:absolute;left:0;color:#2ed573;font-size:10px;top:2px;}
+
+/* ===== AI与考古 ===== */
+.aiarchaeology{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiarchaeology{grid-template-columns:repeat(2,1fr);}}
+.aarc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aarc h3{font-size:17px;margin-bottom:10px;color:#e1b12c;}
+.aarc p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aarc .aarc-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aarc .aarc-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aarc .aarc-list div::before{content:'◉';position:absolute;left:0;color:#e1b12c;font-size:10px;top:2px;}
+
+/* ===== AI与语言学 ===== */
+.ailinguistics{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.ailinguistics{grid-template-columns:repeat(2,1fr);}}
+.alin{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.alin h3{font-size:17px;margin-bottom:10px;color:#feca57;}
+.alin p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.alin .alin-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.alin .alin-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.alin .alin-list div::before{content:'❝';position:absolute;left:0;color:#feca57;font-size:10px;top:2px;}
+
+/* ===== AI历史研究2 ===== */
+.aihistory2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aihistory2{grid-template-columns:repeat(2,1fr);}}
+.ahis{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ahis h3{font-size:17px;margin-bottom:10px;color:#ffa502;}
+.ahis p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ahis .ahis-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.ahis .ahis-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.ahis .ahis-list div::before{content:'⚜';position:absolute;left:0;color:#ffa502;font-size:10px;top:2px;}
+
+/* ===== AI思想实验 ===== */
+.aithoughtexp{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aithoughtexp{grid-template-columns:repeat(2,1fr);}}
+.athx{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.athx h3{font-size:17px;margin-bottom:10px;color:#a29bfe;}
+.athx p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.athx .athx-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.athx .athx-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.athx .athx-list div::before{content:'◈';position:absolute;left:0;color:#a29bfe;font-size:10px;top:2px;}
+
+/* ===== AI哲学思想史 ===== */
+.aiphilosophy2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiphilosophy2{grid-template-columns:repeat(2,1fr);}}
+.aph2{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aph2 h3{font-size:17px;margin-bottom:10px;color:#dfe6e9;}
+.aph2 p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aph2 .aph2-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aph2 .aph2-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aph2 .aph2-list div::before{content:'☯';position:absolute;left:0;color:#dfe6e9;font-size:10px;top:2px;}
+
+/* ===== AI与文化深度分析 ===== */
+.aiculture{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiculture{grid-template-columns:repeat(2,1fr);}}
+.aicul{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aicul h3{font-size:17px;margin-bottom:10px;color:var(--cyan);}
+.aicul p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aicul .aicul-impact{font-size:12px;color:var(--violet);padding-top:8px;border-top:1px solid var(--line);}
+
+/* ===== AI编程发展史 ===== */
+.aiprogramming{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+.aip{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;}
+.aip .aip-era{font-size:12px;letter-spacing:1px;color:var(--violet);font-weight:800;}
+.aip h3{font-size:16px;margin:4px 0;}
+.aip p{font-size:13px;color:var(--muted);line-height:1.8;}
+.aip .aip-m{margin-top:8px;font-size:12px;color:var(--dim);}
+
+/* ===== AI公司商业史 ===== */
+.companies{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.companies{grid-template-columns:repeat(2,1fr);}}
+.comp{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.comp .comp-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}
+.comp h3{font-size:18px;}
+.comp .comp-founded{font-size:12px;color:var(--cyan);}
+.comp .comp-hq{font-size:12px;color:var(--dim);margin-bottom:10px;}
+.comp p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.comp .comp-ms{font-size:12px;color:var(--gold);}
+.comp .comp-ms div{margin-bottom:3px;padding-left:14px;position:relative;}
+.comp .comp-ms div::before{content:'▸';position:absolute;left:0;color:var(--gold);}
+
+/* ===== AI与就业深度分析 ===== */
+.aijobs{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aijobs{grid-template-columns:repeat(2,1fr);}}
+.aj{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aj .aj-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.aj h3{font-size:17px;}
+.aj .aj-exp{font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;}
+.aj .aj-exp.high{background:rgba(255,107,107,.15);color:var(--red);border:1px solid rgba(255,107,107,.4);}
+.aj .aj-exp.midhigh{background:rgba(255,209,102,.15);color:var(--gold);border:1px solid rgba(255,209,102,.4);}
+.aj .aj-exp.mid{background:rgba(78,205,196,.15);color:var(--cyan);border:1px solid rgba(78,205,196,.4);}
+.aj .aj-exp.midlow{background:rgba(155,89,182,.15);color:var(--violet);border:1px solid rgba(155,89,182,.4);}
+.aj .aj-exp.low{background:rgba(46,204,113,.15);color:#2ecc71;border:1px solid rgba(46,204,113,.4);}
+.aj p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aj .aj-trend{font-size:12px;color:var(--violet);padding-top:8px;border-top:1px solid var(--line);}
+
+/* ===== AGI与AI安全深度讨论 ===== */
+.agisafety{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.agisafety{grid-template-columns:repeat(2,1fr);}}
+.agi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.agi h3{font-size:17px;margin-bottom:10px;color:var(--red);}
+.agi .agi-sec{margin-bottom:10px;}
+.agi .agi-sec:last-child{margin-bottom:0;}
+.agi .agi-label{font-size:12px;font-weight:800;color:var(--gold);margin-bottom:4px;}
+.agi p{font-size:13px;color:var(--muted);line-height:1.8;}
+
+/* ===== AI与心理学深度分析 ===== */
+.aipsychology{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aipsychology{grid-template-columns:repeat(2,1fr);}}
+.ap{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ap h3{font-size:17px;margin-bottom:10px;color:var(--purple);}
+.ap p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ap .ap-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.ap .ap-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.ap .ap-list div::before{content:'🧠';position:absolute;left:0;font-size:10px;top:2px;}
+
+/* ===== AI与农业深度分析 ===== */
+.aiagriculture{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiagriculture{grid-template-columns:repeat(2,1fr);}}
+.aag{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aag h3{font-size:17px;margin-bottom:10px;color:#27ae60;}
+.aag p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aag .aag-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aag .aag-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aag .aag-list div::before{content:'🌱';position:absolute;left:0;font-size:10px;top:2px;}
+
+/* ===== AI与能源深度分析 ===== */
+.aienergy{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aienergy{grid-template-columns:repeat(2,1fr);}}
+.aen{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aen h3{font-size:17px;margin-bottom:10px;color:#f39c12;}
+.aen p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aen .aen-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aen .aen-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aen .aen-list div::before{content:'⚡';position:absolute;left:0;font-size:10px;top:2px;}
+
+/* ===== AI与体育深度分析 ===== */
+.aisports{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aisports{grid-template-columns:repeat(2,1fr);}}
+.ast{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ast h3{font-size:17px;margin-bottom:10px;color:#e74c3c;}
+.ast p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ast .ast-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.ast .ast-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.ast .ast-list div::before{content:'🏃';position:absolute;left:0;font-size:10px;top:2px;}
+
+/* ===== AI与哲学深度分析 ===== */
+.aiphilosophy{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiphilosophy{grid-template-columns:repeat(2,1fr);}}
+.aph{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aph h3{font-size:17px;margin-bottom:10px;color:#e67e22;}
+.aph p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aph .aph-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aph .aph-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aph .aph-list div::before{content:'Ψ';position:absolute;left:0;color:#e67e22;font-size:10px;top:2px;}
+
+/* ===== AI与科幻深度分析 ===== */
+.aiscifi{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiscifi{grid-template-columns:repeat(2,1fr);}}
+.asc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.asc h3{font-size:17px;margin-bottom:10px;color:#9b59b6;}
+.asc p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.asc .asc-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.asc .asc-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.asc .asc-list div::before{content:'★';position:absolute;left:0;color:#9b59b6;font-size:10px;top:2px;}
+
+/* ===== AI与语言深度分析 ===== */
+.ailanguage{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.ailanguage{grid-template-columns:repeat(2,1fr);}}
+.alg{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.alg h3{font-size:17px;margin-bottom:10px;color:#3498db;}
+.alg p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.alg .alg-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.alg .alg-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.alg .alg-list div::before{content:'✆';position:absolute;left:0;color:#3498db;font-size:10px;top:2px;}
+
+/* ===== AI与机器人深度分析 ===== */
+.airobotics{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.airobotics{grid-template-columns:repeat(2,1fr);}}
+.arb{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.arb h3{font-size:17px;margin-bottom:10px;color:#9b59b6;}
+.arb p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.arb .arb-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.arb .arb-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.arb .arb-list div::before{content:'🤖';position:absolute;left:0;font-size:10px;top:2px;}
+
+/* ===== AI与太空深度分析 ===== */
+.aispace{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aispace{grid-template-columns:repeat(2,1fr);}}
+.asp{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.asp h3{font-size:17px;margin-bottom:10px;color:#8e44ad;}
+.asp p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.asp .asp-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.asp .asp-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.asp .asp-list div::before{content:'🚀';position:absolute;left:0;font-size:10px;top:2px;}
+
+/* ===== AI开源生态深度分析 ===== */
+.aiopensource{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiopensource{grid-template-columns:repeat(2,1fr);}}
+.aos{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aos h3{font-size:17px;margin-bottom:10px;color:#2ecc71;}
+.aos p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aos .aos-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aos .aos-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aos .aos-list div::before{content:'⑂';position:absolute;left:0;color:#2ecc71;font-size:10px;top:2px;}
+
+/* ===== AI芯片发展史 ===== */
+.aichips{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aichips{grid-template-columns:repeat(2,1fr);}}
+.ach{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ach h3{font-size:17px;margin-bottom:10px;color:#f39c12;}
+.ach p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ach .ach-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.ach .ach-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.ach .ach-list div::before{content:'◇';position:absolute;left:0;color:#f39c12;font-size:10px;top:2px;}
+
+/* ===== AI与交通深度分析 ===== */
+.aitransport{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aitransport{grid-template-columns:repeat(2,1fr);}}
+.atr{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.atr h3{font-size:17px;margin-bottom:10px;color:#1abc9c;}
+.atr p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.atr .atr-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.atr .atr-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.atr .atr-list div::before{content:'🚗';position:absolute;left:0;font-size:10px;top:2px;}
+
+/* ===== AI与制造深度分析 ===== */
+.aimanufacturing{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aimanufacturing{grid-template-columns:repeat(2,1fr);}}
+.amf{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.amf h3{font-size:17px;margin-bottom:10px;color:#95a5a6;}
+.amf p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.amf .amf-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.amf .amf-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.amf .amf-list div::before{content:'🏭';position:absolute;left:0;font-size:10px;top:2px;}
+
+/* ===== AI与零售深度分析 ===== */
+.airetail{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.airetail{grid-template-columns:repeat(2,1fr);}}
+.aret{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aret h3{font-size:17px;margin-bottom:10px;color:#e67e22;}
+.aret p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aret .aret-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aret .aret-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aret .aret-list div::before{content:'🛒';position:absolute;left:0;font-size:10px;top:2px;}
+
+/* ===== AI与金融深度分析 ===== */
+.aifinance{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aifinance{grid-template-columns:repeat(2,1fr);}}
+.afin{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.afin h3{font-size:17px;margin-bottom:10px;color:var(--gold);}
+.afin p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.afin .afin-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.afin .afin-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.afin .afin-list div::before{content:'₿';position:absolute;left:0;color:var(--gold);font-size:10px;top:2px;}
+
+/* ===== AI与医疗深度分析 ===== */
+.aimedical{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aimedical{grid-template-columns:repeat(2,1fr);}}
+.amed{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.amed h3{font-size:17px;margin-bottom:10px;color:#2ecc71;}
+.amed p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.amed .amed-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.amed .amed-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.amed .amed-list div::before{content:'+';position:absolute;left:0;color:#2ecc71;font-size:12px;top:1px;font-weight:700;}
+
+/* ===== AI与新闻传播深度分析 ===== */
+.ainews{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.ainews{grid-template-columns:repeat(2,1fr);}}
+.an{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.an h3{font-size:17px;margin-bottom:10px;color:#3498db;}
+.an p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.an .an-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.an .an-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.an .an-list div::before{content:'📰';position:absolute;left:0;font-size:10px;top:2px;}
+
+/* ===== AI与游戏深度分析 ===== */
+.aigaming{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aigaming{grid-template-columns:repeat(2,1fr);}}
+.agm{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.agm h3{font-size:17px;margin-bottom:10px;color:#9b59b6;}
+.agm p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.agm .agm-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.agm .agm-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.agm .agm-list div::before{content:'🎮';position:absolute;left:0;font-size:10px;top:2px;}
+
+/* ===== AI与教育深度分析 ===== */
+.aieducation{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aieducation{grid-template-columns:repeat(2,1fr);}}
+.aedu{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aedu h3{font-size:17px;margin-bottom:10px;color:#f39c12;}
+.aedu p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aedu .aedu-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aedu .aedu-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aedu .aedu-list div::before{content:'✎';position:absolute;left:0;color:#f39c12;font-size:10px;top:2px;}
+
+/* ===== AI与艺术深度分析 ===== */
+.aiart{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aiart{grid-template-columns:repeat(2,1fr);}}
+.aart{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aart h3{font-size:17px;margin-bottom:10px;color:#e74c3c;}
+.aart p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aart .aart-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aart .aart-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aart .aart-list div::before{content:'✦';position:absolute;left:0;color:#e74c3c;font-size:10px;top:2px;}
+
+/* ===== AI与经济深度分析 ===== */
+.aieconomy{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aieconomy{grid-template-columns:repeat(2,1fr);}}
+.aec{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.aec h3{font-size:17px;margin-bottom:10px;color:var(--gold);}
+.aec p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.aec .aec-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.aec .aec-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.aec .aec-list div::before{content:'$';position:absolute;left:0;color:var(--gold);font-size:11px;top:1px;font-weight:700;}
+
+/* ===== AI与环境深度分析 ===== */
+.aienvironment{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aienvironment{grid-template-columns:repeat(2,1fr);}}
+.ae{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ae h3{font-size:17px;margin-bottom:10px;color:#2ecc71;}
+.ae p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ae .ae-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.ae .ae-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.ae .ae-list div::before{content:'🌱';position:absolute;left:0;font-size:10px;top:2px;}
+
+/* ===== AI与军事深度分析 ===== */
+.aimilitary{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.aimilitary{grid-template-columns:repeat(2,1fr);}}
+.am{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.am h3{font-size:17px;margin-bottom:10px;color:var(--red);}
+.am p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.am .am-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.am .am-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.am .am-list div::before{content:'◆';position:absolute;left:0;color:var(--red);font-size:8px;top:4px;}
+
+/* ===== AI与法律深度分析 ===== */
+.ailaw{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.ailaw{grid-template-columns:repeat(2,1fr);}}
+.al{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.al h3{font-size:17px;margin-bottom:10px;color:var(--gold);}
+.al p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.al .al-cases{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.al .al-cases div{margin-bottom:4px;padding-left:14px;position:relative;}
+.al .al-cases div::before{content:'⚖';position:absolute;left:0;color:var(--cyan);font-size:10px;top:2px;}
+
+/* ===== AI伦理与哲学深度讨论 ===== */
+.philosophy{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+.phil{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.phil h3{font-size:17px;margin-bottom:4px;}
+.phil .phil-thinker{font-size:12px;color:var(--violet);margin-bottom:10px;}
+.phil .phil-sec{margin-bottom:10px;}
+.phil .phil-sec:last-child{margin-bottom:0;}
+.phil .phil-label{font-size:12px;font-weight:800;color:var(--gold);margin-bottom:4px;}
+.phil p{font-size:13px;color:var(--muted);line-height:1.8;}
+
+/* ===== 各国AI战略 ===== */
+.countries{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.countries{grid-template-columns:repeat(2,1fr);}}
+.ctry{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ctry .ctry-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.ctry .ctry-flag{font-size:24px;}
+.ctry h3{font-size:18px;}
+.ctry .ctry-status{font-size:11px;color:var(--gold);border:1px solid rgba(255,209,102,.4);border-radius:999px;padding:2px 10px;display:inline-block;margin-bottom:10px;}
+.ctry p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ctry .ctry-pol{font-size:12px;color:var(--dim);margin-bottom:6px;padding-left:14px;position:relative;}
+.ctry .ctry-pol::before{content:'▸';position:absolute;left:0;color:var(--cyan);}
+.ctry .ctry-kp{margin-top:10px;font-size:12px;color:var(--violet);}
+
+/* ===== 数据集发展史 ===== */
+.datasets{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.datasets{grid-template-columns:repeat(2,1fr);}}
+.ds{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.ds .ds-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+.ds h3{font-size:17px;}
+.ds .ds-year{font-size:12px;color:var(--cyan);font-weight:800;}
+.ds .ds-size{font-size:12px;color:var(--gold);margin-bottom:4px;}
+.ds .ds-creator{font-size:12px;color:var(--dim);margin-bottom:10px;}
+.ds p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.ds .ds-impact{font-size:12px;color:var(--violet);padding-top:8px;border-top:1px solid var(--line);}
+
+/* ===== AI硬件发展史 ===== */
+.hardware{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+.hw{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;}
+.hw .hw-era{font-size:12px;letter-spacing:1px;color:var(--violet);font-weight:800;}
+.hw h3{font-size:16px;margin:4px 0;}
+.hw p{font-size:13px;color:var(--muted);line-height:1.8;}
+.hw .hw-m{margin-top:8px;font-size:12px;color:var(--dim);}
+
+/* ===== 技术原理深度 ===== */
+.techs{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.techs{grid-template-columns:repeat(2,1fr);}}
+.tech{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.tech .tech-icon{display:inline-block;font-size:11px;color:var(--cyan);border:1px solid rgba(78,205,196,.4);border-radius:999px;padding:2px 10px;margin-bottom:8px;}
+.tech h3{font-size:17px;margin-bottom:10px;}
+.tech p{font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.8;}
+.tech p:last-child{margin-bottom:0;}
+
+/* ===== 寒冬 ===== */
+.winters{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+@media(min-width:720px){.winters{grid-template-columns:repeat(2,1fr);}}
+.winter{background:linear-gradient(160deg,var(--panel),#10152c);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.winter h3{font-size:18px;color:var(--rose);}
+.winter .w-y{font-size:12px;color:var(--dim);margin-top:4px;letter-spacing:1px;}
+.winter p{font-size:13.5px;color:var(--muted);margin-top:10px;}
+
+/* ===== 结尾 ===== */
+.finale{text-align:center;padding:70px 0 80px;}
+.finale .f-big{font-size:clamp(24px,5vw,36px);font-weight:800;letter-spacing:3px;color:#fff;}
+.finale .f-en{font-size:13px;letter-spacing:5px;color:var(--muted);margin-top:10px;text-transform:uppercase;}
+.finale p{font-size:13.5px;color:var(--dim);margin-top:14px;max-width:560px;margin-left:auto;margin-right:auto;}
+footer{border-top:1px solid var(--line);padding:22px 0;font-size:12px;color:var(--dim);text-align:center;}
+/* ===== AI通识通用板块 ===== */
+.gbwrap{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px;}
+@media(min-width:720px){.gbwrap{grid-template-columns:repeat(2,1fr);}}
+.gb{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.gb h3{font-size:17px;margin-bottom:10px;color:#feca57;}
+.gb p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.gb .gb-list{font-size:12px;color:var(--cyan);padding-top:8px;border-top:1px solid var(--line);}
+.gb .gb-list div{margin-bottom:4px;padding-left:14px;position:relative;}
+.gb .gb-list div::before{content:'\25C6';position:absolute;left:0;color:#feca57;font-size:10px;top:2px;}
+
+.fgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:20px}
+@media(min-width:768px){.fgrid{grid-template-columns:repeat(4,1fr)}}
+.fcard{margin:0;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12)}
+.fcard img{width:100%;height:auto;display:block;cursor:zoom-in;min-height:80px;background:#0a0f1a}
+.fcard figcaption{font-size:12px;padding:8px 10px;color:#9fb2cc;line-height:1.5}
+#lightbox{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.9);cursor:zoom-out;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}
+#lightbox img{max-width:100%;max-height:92vh;border-radius:8px}
+#lightbox .lb-cap{color:#cfe0ff;text-align:center;margin-top:12px;font-size:15px}
+body.lb-open{overflow:hidden}
+
+.gal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px;margin-top:24px}
+.gal-card{margin:0;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.08)}
+.gal-card img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover}
+.gal-card figcaption{padding:14px 16px}
+.gal-card figcaption b{display:block;font-size:16px;color:#0f172a}
+.gal-card figcaption span{display:block;font-size:13px;color:#64748b;margin-top:4px;line-height:1.6}
+
+
+/* ===== 分组目录增强 ===== */
+#tocSearch{width:100%;box-sizing:border-box;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text);font-size:14px;margin-bottom:6px;outline:none;}
+#tocSearch:focus{border-color:var(--gold);}
+#tocSearch::placeholder{color:var(--dim);}
+.toc-hint{font-size:10px;color:var(--dim);margin:0 0 10px 2px;letter-spacing:.5px;}
+.toc-group{margin:2px 0 6px;}
+.toc-group-hd{display:flex;align-items:center;gap:6px;padding:6px 10px;font-size:12px;letter-spacing:1px;color:var(--gold);font-weight:700;cursor:pointer;border-radius:8px;user-select:none;border-top:1px dashed rgba(255,255,255,.07);}
+.toc-group-hd:hover{background:rgba(245,200,66,.08);}
+.toc-group-hd .g-arrow{transition:transform .2s;font-size:9px;color:var(--dim);}
+.toc-group-hd .g-cnt{margin-left:auto;font-size:10px;color:var(--dim);font-weight:400;letter-spacing:0;}
+.toc-group.collapsed .toc-group-items{display:none;}
+.toc-group.collapsed .g-arrow{transform:rotate(-90deg);}
+#tocNoResult{padding:16px 10px;font-size:13px;color:var(--dim);text-align:center;display:none;}
+/* 底部当前位置条 */
+#posBar{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:170;display:flex;align-items:center;gap:10px;max-width:min(92vw,520px);background:rgba(10,14,28,.92);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:999px;padding:6px 8px 6px 14px;box-shadow:0 8px 30px rgba(0,0,0,.35);box-sizing:border-box;}
+#posBar .pb-label{font-size:11px;color:var(--dim);white-space:nowrap;flex:none;}
+#posBar .pb-name{font-size:12px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:190px;cursor:pointer;flex:none;}
+#posBar .pb-name:hover{color:var(--gold);}
+#posBar .pb-top{flex:none;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--gold);font-size:12px;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;}
+#posBar .pb-top:hover{border-color:var(--gold);}
+
+
+/* ===== 移动端常驻分类条 ===== */
+#catBar{position:sticky;top:0;z-index:120;display:flex;gap:8px;overflow-x:auto;padding:8px 12px;background:rgba(10,14,28,.9);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.06);scrollbar-width:none;-ms-overflow-style:none;}
+#catBar::-webkit-scrollbar{display:none;}
+#catBar .chip{flex:none;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);font-size:12px;cursor:pointer;white-space:nowrap;}
+#catBar .chip:hover{color:var(--gold);border-color:var(--gold);}
+#catBar .chip.on{color:var(--gold);border-color:var(--gold);background:rgba(245,200,66,.1);}
+}
+/* 底部条增强 */
+#posBar .pb-nav{flex:none;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--text);font-size:16px;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;}
+#posBar .pb-nav:hover{border-color:var(--gold);color:var(--gold);}
+
+
+html,body{overflow-x:hidden;}
+#tocPanel{display:none;transform:none;}
+#tocPanel.open{display:block;}
+@media(max-width:640px){#tocPanel.open{max-width:85vw;}}
+/* ===== 多页站点骨架 ===== */
+.site-nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:14px;padding:10px 18px;background:rgba(10,14,28,.93);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);}
+.site-nav .brand{font-size:16px;font-weight:800;color:var(--gold);text-decoration:none;white-space:nowrap;}
+.site-nav .brand span{font-size:11px;color:var(--dim);font-weight:400;margin-left:4px;}
+.nav-links{display:flex;gap:6px;overflow-x:auto;flex:1;scrollbar-width:none;-ms-overflow-style:none;}
+.nav-links::-webkit-scrollbar{display:none;}
+.nav-links a{flex:none;padding:5px 12px;border-radius:999px;font-size:13px;color:var(--muted);text-decoration:none;white-space:nowrap;}
+.nav-links a:hover{color:var(--gold);}
+.nav-links a.on{color:var(--gold);background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.35);}
+#topBtn{flex:none;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--gold);font-size:13px;cursor:pointer;opacity:0;transition:opacity .2s;line-height:1;}
+#topBtn.show{opacity:1;}
+.page-main{max-width:1100px;margin:0 auto;padding:0 18px 60px;}
+.page-hero{padding:34px 0 4px;}
+.page-hero h1{font-size:28px;margin-bottom:6px;line-height:1.3;}
+.page-hero p{color:var(--muted);font-size:14px;margin-bottom:14px;}
+.page-index{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin:10px 0 22px;}
+.page-index summary{cursor:pointer;font-weight:700;color:var(--gold);font-size:14px;list-style:none;}
+.page-index summary::-webkit-details-marker{display:none;}
+.page-index summary::before{content:"B8 ";font-size:11px;}
+.page-index[open] summary::before{content:"BE ";font-size:11px;}
+.page-index ul{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px 10px;max-height:260px;overflow:auto;}
+.page-index li{font-size:12px;width:calc(50% - 5px);}
+.page-index a{color:var(--muted);text-decoration:none;}
+.page-index a:hover{color:var(--gold);}
+.site-footer{margin-top:50px;padding:22px 18px;text-align:center;color:var(--dim);font-size:12px;border-top:1px solid rgba(255,255,255,.07);}
+@media(max-width:640px){.page-index li{width:100%;}.site-nav{flex-wrap:wrap;}}
