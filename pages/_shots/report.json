@@ -1,0 +1,244 @@
+{
+  "src": "pages/concepts.html",
+  "url": "file:///home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/concepts.html",
+  "outdir": "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots",
+  "include": [
+    "lint",
+    "screenshots",
+    "structure"
+  ],
+  "shots": {
+    "desktop": {
+      "revealed": 0,
+      "slices": [
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p1of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p2of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p3of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p4of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p5of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p6of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p7of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p8of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p9of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p10of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p11of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p12of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p13of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p14of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p15of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p16of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p17of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p18of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p19of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p20of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p21of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p22of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p23of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p24of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p25of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p26of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p27of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p28of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p29of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p30of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p31of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p32of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p33of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p34of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p35of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p36of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p37of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p38of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p39of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p40of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p41of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p42of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p43of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p44of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p45of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p46of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p47of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p48of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p49of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p50of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p51of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p52of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p53of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p54of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p55of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p56of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p57of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p58of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p59of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p60of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p61of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p62of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p63of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p64of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p65of66.jpg",
+        "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p66of66.jpg"
+      ],
+      "sliceHint": "按顺序 Read slices 里的各分片。",
+      "screenshotMainError": "RuntimeError: Page.captureScreenshot 返回空 data",
+      "screenshotMainErrorHint": "整页主图没截出来，按 slices 逐张 Read；slices 也空就只按 lint 改代码。",
+      "truncated": false,
+      "structure": {
+        "title": "核心概念与技术 · AI 纪元 · 人工智能通识一览",
+        "firstH1": "核心概念与技术",
+        "viewport": {
+          "w": 1440,
+          "h": 900
+        },
+        "fullpage": {
+          "w": 1440,
+          "h": 300937
+        },
+        "counts": {
+          "section": 184,
+          "h1": 1,
+          "h2": 184,
+          "img": 0,
+          "canvas": 0,
+          "svg": 0,
+          "links": 193,
+          "buttons": 1
+        }
+      },
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "horizontalOverflow": [],
+      "resourceErrors": [],
+      "faviconWarning": {
+        "present": false
+      },
+      "faviconHint": "warning · 含义：没有任何 favicon 声明——浏览器 tab、书签、历史记录里显示的是空白默认图标，产物看起来没做完。实测模型原始产物的缺失率 94%。 | 修法：用**内联 SVG data URI**，一行搞定、零额外文件：`<link rel=\"icon\" type=\"image/svg+xml\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230F766E'/%3E%3Ctext x='32' y='44' font-size='36' text-anchor='middle' fill='white'%3EA%3C/text%3E%3C/svg%3E\">`。图形取产物主题里的一个符号（首字母、核心图标、品牌形状），配色沿用页面主色，别用无关的通用图标。 | **三个必须注意的编码细节**：外层 href 用双引号、SVG 内部属性用单引号；`<` `>` 写成 `%3C` `%3E`；**颜色的 `#` 必须写成 `%23`**——不编码会被当成 URL fragment，图标直接不显示。想做深浅色两版就写两个 link，加 `media=\"(prefers-color-scheme: dark)\"`。 | 为什么只能用 data URI：`link href` **不在发布链路的资源收集白名单里**（那里只认 `src` 属性和 CSS `url()`），指向 `assets/` 的图标文件发布后必然 404；而且额外文件破坏单文件自包含，用户拿到一个 html 就该能用。 | 会不会被平台图标覆盖：不会。发布平台把自己的默认 favicon 注入在 `<head>` 最前面，浏览器对多个 icon link **取最后一个**，模型写在后面的那个生效。 | 豁免：(1) 产物是页面片段（没有完整 `<head>`）时不适用；(2) externalRefs 指向 CDN 域名（`lf3-static.bytednsdoc.com` 之类）时，那是**发布平台注入的**默认图标，不是你写的——迭代已发布产物时会看到，忽略即可，自己另加一个 data URI 的 link 就行（浏览器对多个 icon link 取最后一个）。"
+    }
+  },
+  "engine": "playwright",
+  "chromiumExec": "/opt/vm/preinstall/ms-playwright/chromium-1169/chrome-linux/chrome",
+  "elapsedSec": 81.79,
+  "schemaVersion": 2,
+  "status": "warning",
+  "engineInfo": {
+    "name": "playwright",
+    "degraded": false,
+    "degradedReasons": []
+  },
+  "input": {
+    "original": "pages/concepts.html",
+    "resolvedPath": "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/concepts.html",
+    "baseUrl": "file:///home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/concepts.html",
+    "protocol": "file",
+    "cwd": "/home/user/Doubao/chats/38448223676698882/ai-history/_site",
+    "mediaMode": {
+      "reducedMotion": true
+    }
+  },
+  "artifacts": {
+    "screenshots": [
+      {
+        "viewport": "desktop",
+        "tiles": [
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p1of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p2of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p3of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p4of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p5of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p6of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p7of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p8of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p9of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p10of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p11of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p12of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p13of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p14of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p15of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p16of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p17of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p18of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p19of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p20of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p21of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p22of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p23of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p24of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p25of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p26of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p27of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p28of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p29of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p30of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p31of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p32of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p33of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p34of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p35of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p36of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p37of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p38of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p39of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p40of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p41of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p42of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p43of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p44of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p45of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p46of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p47of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p48of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p49of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p50of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p51of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p52of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p53of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p54of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p55of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p56of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p57of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p58of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p59of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p60of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p61of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p62of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p63of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p64of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p65of66.jpg",
+          "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/concepts_desktop_p66of66.jpg"
+        ],
+        "visualCoverage": {
+          "complete": true,
+          "reason": null
+        }
+      }
+    ]
+  },
+  "summary": {
+    "blocker": 0,
+    "error": 0,
+    "warning": 1,
+    "info": 0
+  },
+  "findings": [
+    {
+      "ruleId": "faviconWarning",
+      "severity": "warning",
+      "kind": "metadata",
+      "viewport": "desktop",
+      "selector": null,
+      "evidence": {
+        "present": false
+      },
+      "dedupeKey": "faviconWarning|desktop||0"
+    }
+  ],
+  "prioritizedActions": [
+    {
+      "ruleId": "faviconWarning",
+      "severity": "warning",
+      "viewport": "desktop",
+      "selector": null
+    }
+  ],
+  "reportPath": "/home/user/Doubao/chats/38448223676698882/ai-history/_site/pages/_shots/report.json"
+}
